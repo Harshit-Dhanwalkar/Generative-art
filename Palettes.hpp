@@ -29,6 +29,20 @@ const std::vector<sf::Color>& getPalette(const std::string& name) {
             sf::Color(245, 245, 220),
             sf::Color(188, 143, 143)
         }},
+        {"neon", {
+            sf::Color(255, 20, 147),
+            sf::Color(0, 255, 255),
+            sf::Color(50, 255, 50),
+            sf::Color(255, 0, 255),
+            sf::Color(255, 215, 0)
+        }},
+        {"monochrome", {
+            sf::Color(20, 20, 20),
+            sf::Color(80, 80, 80),
+            sf::Color(140, 140, 140),
+            sf::Color(200, 200, 200),
+            sf::Color(240, 240, 240)
+        }},
         {"default", {
             sf::Color(117, 131, 158),
             sf::Color(219, 142, 60),

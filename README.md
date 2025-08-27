@@ -19,6 +19,12 @@ cmake ..
 make
 ```
 
+#### Run
+
+```bash
+./generative_art
+```
+
 ## Output
 
 ![Vibrant](generated_art.png)
