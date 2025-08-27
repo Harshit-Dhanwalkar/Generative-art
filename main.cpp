@@ -1,7 +1,53 @@
 #include <SFML/Graphics.hpp>
 #include <random>
+#include <vector>
+#include <iostream>
+#include <map>
+#include "Palettes.hpp"
+
+// print a color block to the terminal
+void printColorBlock(const sf::Color& color) {
+    std::cout << "\033[48;2;" << (int)color.r << ";" << (int)color.g << ";" << (int)color.b << "m    \033[0m";
+}
+
+const std::vector<sf::Color>& printAllPalettesAndGetChoice() {
+    std::map<int, std::string> paletteOptions;
+    int optionNumber = 1;
+
+    // palettes menu
+    static const std::map<std::string, std::vector<sf::Color>> allPalettes = {
+        {"default", getPalette("default")},
+        {"vibrant", getPalette("vibrant")},
+        {"pastel", getPalette("pastel")},
+        {"earthy", getPalette("earthy")}
+    };
+
+    std::cout << "Available palettes:\n";
+    for (const auto& pair : allPalettes) {
+        std::cout << optionNumber << ". " << pair.first << ": ";
+        for (const auto& color : pair.second) {
+            printColorBlock(color);
+        }
+        std::cout << std::endl;
+        paletteOptions[optionNumber] = pair.first;
+        optionNumber++;
+    }
+
+    int choice;
+    std::cout << "Enter the number of the palette you want to use: ";
+    std::cin >> choice;
+
+    if (paletteOptions.count(choice)) {
+        return allPalettes.at(paletteOptions.at(choice));
+    } else {
+        std::cerr << "Invalid choice. Using default palette." << std::endl;
+        return allPalettes.at("default");
+    }
+}
 
 int main() {
+    const std::vector<sf::Color>& palette = printAllPalettesAndGetChoice();
+
     // Window dimensions
     const int windowWidth = 1000;
     const int windowHeight = 1000;
@@ -9,12 +55,12 @@ int main() {
     // Create the main window
     sf::RenderWindow window(sf::VideoMode(windowWidth, windowHeight), "Generative Art", sf::Style::Close);
 
-    // Create a render texture for off-screen drawing
+    // Create a render texture
     sf::RenderTexture renderTexture;
     if (!renderTexture.create(windowWidth, windowHeight)) {
         return -1;
     }
-    renderTexture.clear(sf::Color::Black); // Or any background color
+    renderTexture.clear(sf::Color::Black);
 
     // Set up random number generation
     std::random_device rd;
@@ -22,47 +68,40 @@ int main() {
     std::uniform_real_distribution<> posX(0.0, static_cast<double>(windowWidth));
     std::uniform_real_distribution<> posY(0.0, static_cast<double>(windowHeight));
     std::uniform_real_distribution<> size(5.0, 150.0);
-    std::uniform_int_distribution<> colorVal(0, 255);
     std::uniform_int_distribution<> alphaVal(20, 120); // transparency
     std::uniform_real_distribution<> rotationAngle(0.0, 360.0);
+    std::uniform_int_distribution<> paletteIndex(0, palette.size() - 1);
 
     const int numberOfRects = 5000; // density
 
     // Loop to draw the rectangles
     for (int i = 0; i < numberOfRects; ++i) {
         sf::RectangleShape rect(sf::Vector2f(size(gen), size(gen)));
-        
-        // Set position, color, and alpha
+
         rect.setPosition(posX(gen), posY(gen));
-        rect.setFillColor(sf::Color(colorVal(gen), colorVal(gen), colorVal(gen), alphaVal(gen)));
-        
-        // Add a black border to the rectangle
+        sf::Color selectedColor = palette[paletteIndex(gen)];
+        selectedColor.a = alphaVal(gen);
+        rect.setFillColor(selectedColor);
+
         rect.setOutlineColor(sf::Color::Black);
-        rect.setOutlineThickness(1.0f); // 1px border
-        
-        // Set a random rotation and rotate around the center
+        rect.setOutlineThickness(1.0f);
+
         rect.setRotation(rotationAngle(gen));
         rect.setOrigin(rect.getLocalBounds().width / 2, rect.getLocalBounds().height / 2);
 
-        // Draw the rectangle to the off-screen texture
         renderTexture.draw(rect);
     }
-    
-    // Finalize the drawing process on the render texture
-    renderTexture.display();
 
-    // Save the final image to a file
+    renderTexture.display();
     renderTexture.getTexture().copyToImage().saveToFile("generated_art.png");
 
-    // Main program loop to display the image
     sf::Sprite sprite(renderTexture.getTexture());
     while (window.isOpen()) {
         sf::Event event;
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed) {
                 window.close();
-            }
-            else if (event.type == sf::Event::KeyPressed) {
+            } else if (event.type == sf::Event::KeyPressed) {
                 if (event.key.code == sf::Keyboard::Q) {
                     window.close();
                 }

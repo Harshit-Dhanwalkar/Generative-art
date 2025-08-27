@@ -18,3 +18,7 @@ cd build
 cmake ..
 make
 ```
+
+## Output
+
+![Vibrant](generated_art.png)
