@@ -27,4 +27,5 @@ make
 
 ## Output
 
-![Vibrant](generated_art.png)
+![Vibrant](assets/generated_art.png)
+![GIF](assets/animation.gif)
