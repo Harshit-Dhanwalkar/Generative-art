@@ -29,3 +29,4 @@ make
 
 ![Vibrant](assets/generated_art.png)
 ![GIF](assets/animation.gif)
+![GIF](assets/animation_1.gif)
