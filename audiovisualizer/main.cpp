@@ -141,7 +141,7 @@ int main() {
 
     // Load font for UI
     sf::Font font;
-    if (!font.loadFromFile("montana-light.woff")) {
+    if (!font.loadFromFile("fonts/montana-light.ttf")) {
         std::cerr << "Warning: Could not load font. UI text will not be displayed." << std::endl;
     }
 

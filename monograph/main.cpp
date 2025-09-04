@@ -3,7 +3,8 @@
 #include <iostream>
 #include <string>
 #include <map>
-#include <limits> // Required for numeric_limits
+#include <limits>
+#include  <filesystem>
 
 // Print a color block to the terminal
 void printColorBlock(const sf::Color& color) {
@@ -56,8 +57,26 @@ int main() {
     std::string paletteChoice = getPaletteChoice();
 
     sf::RenderWindow window(sf::VideoMode(windowWidth, windowHeight), "Monograph");
+    window.setFramerateLimit(60);
+
+    // Load font for UI
+    sf::Font font;
+    if (!font.loadFromFile("fonts/montana-light.ttf")) {
+        std::cerr << "Warning: Could not load font. UI text will not be displayed." << std::endl;
+    }
 
     Monograph monograph(window, windowWidth, windowHeight, paletteChoice);
+
+    // UI text
+    sf::Text instructions;
+    instructions.setFont(font);
+    instructions.setCharacterSize(16);
+    instructions.setFillColor(sf::Color::Black);
+    instructions.setPosition(10, 10);
+    instructions.setString("R: Regenerate | S: Save Image | Q: Quit");
+
+    bool needsRedraw = true;
+    sf::Clock clock;
 
     while (window.isOpen()) {
         sf::Event event;
@@ -70,12 +89,40 @@ int main() {
                 if (event.key.code == sf::Keyboard::Q) {
                     window.close();
                 }
+                if (event.key.code == sf::Keyboard::R) {
+                    monograph.generate();
+                    needsRedraw = true;
+                    std::cout << "Regenerated artwork." << std::endl;
+                }
+                if (event.key.code == sf::Keyboard::S) {
+                    // Save current frame to image
+                    sf::Texture texture;
+                    texture.create(window.getSize().x, window.getSize().y);
+                    texture.update(window);
+                    if (texture.copyToImage().saveToFile("monograph_output.png")) {
+                        std::cout << "Saved image to monograph_output.png" << std::endl;
+                    } else {
+                        std::cerr << "Failed to save image." << std::endl;
+                    }
+                }
             }
         }
 
-        window.clear(sf::Color(255, 255, 255));
-        monograph.draw();
-        window.display();
+        if (needsRedraw) {
+            window.clear(sf::Color::White);
+            monograph.draw();
+
+            // Draw UI if font is loaded
+            if (font.getInfo().family != "") {
+                window.draw(instructions);
+            }
+
+            window.display();
+            needsRedraw = false;
+        }
+
+        // Small delay to reduce CPU usage
+        sf::sleep(sf::milliseconds(16));
     }
 
     return 0;

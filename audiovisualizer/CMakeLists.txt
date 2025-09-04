@@ -6,16 +6,18 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(SFML 2.5 REQUIRED COMPONENTS graphics window system audio)
 
+file(COPY ${CMAKE_SOURCE_DIR}/fonts/ DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/fonts/)
+
 add_executable(audiovisualizer_app
-main.cpp
-../lib/Palettes.hpp
-GIFRecorder.hpp
-AudioVisualizer.hpp
+    main.cpp
+    ../lib/Palettes.hpp
+    GIFRecorder.hpp
+    AudioVisualizer.hpp
 )
 
 target_link_libraries(audiovisualizer_app PUBLIC
-sfml-graphics
-sfml-window
-sfml-system
-sfml-audio
+    sfml-graphics
+    sfml-window
+    sfml-system
+    sfml-audio
 )
