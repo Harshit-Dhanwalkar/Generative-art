@@ -16,13 +16,28 @@ sudo apt-get install libsfml-dev
 mkdir build
 cd build
 cmake ..
+```
+
+To `make` `audiovisualizer`
+
+```sh
+cd audiovisualizer/
+make
+```
+
+To `make` `monograph`
+
+```sh
+cd monograph/
 make
 ```
 
 #### Run
 
 ```bash
-./generative_art
+./audiovisualizer
+# or
+./monograph
 ```
 
 ## Output
@@ -30,3 +45,4 @@ make
 ![Vibrant](assets/generated_art.png)
 ![GIF](assets/animation.gif)
 ![GIF](assets/animation_1.gif)
+![monograph](assets/monograph_output.png)
