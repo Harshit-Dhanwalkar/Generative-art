@@ -7,7 +7,7 @@
 #include <sstream>
 #include <iomanip>
 #include <filesystem>
-#include "Palettes.hpp"
+#include "../lib/Palettes.hpp"
 #include "GIFRecorder.hpp"
 #include "AudioVisualizer.hpp"
 

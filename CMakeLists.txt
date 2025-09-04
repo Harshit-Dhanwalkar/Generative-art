@@ -6,16 +6,13 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(SFML 2.5 REQUIRED COMPONENTS graphics window system audio)
 
-add_executable(generative_art
-    main.cpp
-    Palettes.hpp
-    GIFRecorder.hpp
-    AudioVisualizer.hpp
-)
+option(BUILD_MONOGRAPH "Build the Monograph project" ON)
+option(BUILD_AUDIO_VISUALIZER "Build the Audio Visualizer project" ON)
 
-target_link_libraries(generative_art PUBLIC
-    sfml-graphics
-    sfml-window
-    sfml-system
-    sfml-audio
-)
+if(BUILD_AUDIO_VISUALIZER)
+add_subdirectory(audiovisualizer)
+endif()
+
+if(BUILD_MONOGRAPH)
+add_subdirectory(monograph)
+endif()
