@@ -9,7 +9,8 @@ find_package(SFML 2.5 REQUIRED COMPONENTS graphics window system audio)
 option(BUILD_AUDIO_VISUALIZER "Build the Audio Visualizer project" OFF)
 option(BUILD_MONOGRAPH "Build the Monograph project" OFF)
 option(BUILD_GRIDGEN "Build the GridGen project" OFF)
-option(BUILD_PARTICLESYSTEM "Build the ParticleSystem project" ON)
+option(BUILD_PARTICLESYSTEM "Build the ParticleSystem project" OFF)
+option(BUILD_FABRIC "Build the Interactive Fabric Grid project" ON)
 
 if(BUILD_AUDIO_VISUALIZER)
 add_subdirectory(audiovisualizer)
@@ -25,4 +26,8 @@ endif()
 
 if(BUILD_PARTICLESYSTEM)
 add_subdirectory(particlesystem)
+endif()
+
+if(BUILD_FABRIC)
+add_subdirectory(fabric)
 endif()
