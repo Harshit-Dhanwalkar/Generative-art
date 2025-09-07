@@ -13,6 +13,8 @@ add_executable(particlesystem_app
     ../lib/Palettes.hpp
     particle.cpp
     particle.hpp
+    text_particle_system.cpp
+    text_particle_system.hpp
 )
 
 target_link_libraries(particlesystem_app PUBLIC
