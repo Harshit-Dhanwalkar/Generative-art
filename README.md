@@ -12,6 +12,8 @@ sudo apt-get install libsfml-dev
 
 ## Compilation
 
+**NOTE**: First read `CMakeList.txt`
+
 ```
 mkdir build
 cd build
@@ -39,12 +41,20 @@ cd gridgen/
 make
 ```
 
+To `make` `particlesystem`
+
+```sh
+cd particlesystem
+make
+```
+
 #### Run
 
 ```bash
 ./audiovisualizer
 ./monograph
 ./gridgen
+./particlesystem
 ```
 
 ## Output
