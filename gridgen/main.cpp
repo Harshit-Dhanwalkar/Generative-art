@@ -1,20 +1,22 @@
 #include <SFML/Graphics.hpp>
-#include "Monograph.hpp"
+#include "GridGen.hpp"
 #include <iostream>
 #include <string>
 #include <map>
 #include <limits>
-#include  <filesystem>
+#include <filesystem>
+#include <random>
 
 // Print a color block to the terminal
 void printColorBlock(const sf::Color& color) {
     std::cout << "\033[48;2;" << (int)color.r << ";" << (int)color.g << ";" << (int)color.b << "m    \033[0m";
 }
 
+// Function to get the user's palette choice from the terminal
 std::string getPaletteChoice() {
     std::map<int, std::string> paletteOptions;
     int optionNumber = 1;
- 
+
     // Static map of all available palettes
     const std::map<std::string, std::vector<sf::Color>>& allPalettes = {
         {"vibrant", getPalette("vibrant")},
@@ -50,13 +52,28 @@ std::string getPaletteChoice() {
     }
 }
 
+void applyRandomWarps(GridGen& grid, int windowWidth, int windowHeight) {
+    grid.generateGrid();
+
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_real_distribution<> disX(windowWidth / 2.0f - 50, windowWidth / 2.0f + 50);
+    std::uniform_real_distribution<> disY(windowHeight / 2.0f - 50, windowHeight / 2.0f + 50);
+    std::uniform_real_distribution<> disStrength(0.0003f, 0.0007f);
+    std::uniform_real_distribution<> disFalloff(200.0f, 300.0f);
+
+    for (int i = 0; i < 5; ++i) {
+        grid.warpGrid(disX(gen), disY(gen), disStrength(gen), disFalloff(gen));
+    }
+}
+
 int main() {
     int windowWidth = 800;
     int windowHeight = 800;
 
     std::string paletteChoice = getPaletteChoice();
 
-    sf::RenderWindow window(sf::VideoMode(windowWidth, windowHeight), "Monograph");
+    sf::RenderWindow window(sf::VideoMode(windowWidth, windowHeight), "GridGen");
     window.setFramerateLimit(60);
 
     // Load font for UI
@@ -65,7 +82,10 @@ int main() {
         std::cerr << "Warning: Could not load font. UI text will not be displayed." << std::endl;
     }
 
-    Monograph monograph(window, windowWidth, windowHeight, paletteChoice);
+    int numRows = 20;
+    int numCols = 15;
+
+    GridGen grid(window, numCols, numRows, paletteChoice);
 
     // UI text
     sf::Text instructions;
@@ -76,7 +96,10 @@ int main() {
     instructions.setString("R: Regenerate | S: Save Image | Q: Quit");
 
     bool needsRedraw = true;
-    sf::Clock clock;
+
+    // Apply initial warps
+    applyRandomWarps(grid, windowWidth, windowHeight);
+
 
     while (window.isOpen()) {
         sf::Event event;
@@ -91,17 +114,18 @@ int main() {
                 }
                 // Regenerate on R key press
                 if (event.key.code == sf::Keyboard::R) {
-                    monograph.generate();
+                    applyRandomWarps(grid, windowWidth, windowHeight);
                     needsRedraw = true;
                     std::cout << "Regenerated artwork." << std::endl;
                 }
                 // Save on S key press
                 if (event.key.code == sf::Keyboard::S) {
+                    // Save current frame to image
                     sf::Texture texture;
                     texture.create(window.getSize().x, window.getSize().y);
                     texture.update(window);
-                    if (texture.copyToImage().saveToFile("monograph.png")) {
-                        std::cout << "Saved image to monograph.png" << std::endl;
+                    if (texture.copyToImage().saveToFile("gridgen_output.png")) {
+                        std::cout << "Saved image to gridgen_output.png" << std::endl;
                     } else {
                         std::cerr << "Failed to save image." << std::endl;
                     }
@@ -110,8 +134,8 @@ int main() {
         }
 
         if (needsRedraw) {
-            window.clear(sf::Color::White);
-            monograph.draw();
+            window.clear(sf::Color::Black);
+            grid.draw();
 
             // Draw UI if font is loaded
             if (font.getInfo().family != "") {

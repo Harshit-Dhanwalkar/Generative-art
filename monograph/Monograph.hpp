@@ -154,12 +154,13 @@ public:
     }
 
     void draw() {
-        window.clear(sf::Color::White);
+        // background color
+        window.clear(sf::Color::Black);
         for (const auto& shape : shapes) {
-            sf::Color cornerColor = sf::Color::White;
+            sf::Color cornerColor = sf::Color::Black;
 
             sf::RectangleShape cutoutRect;
-            cutoutRect.setFillColor(sf::Color::White);
+            cutoutRect.setFillColor(sf::Color::Black);
             float radius = shape.cornerCircle.getRadius();
 
             if (shape.roundedCorner == Corner::TOP_LEFT) {
