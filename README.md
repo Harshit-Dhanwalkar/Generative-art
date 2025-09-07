@@ -32,12 +32,19 @@ cd monograph/
 make
 ```
 
+To `make` `gridgen`
+
+```sh
+cd gridgen/
+make
+```
+
 #### Run
 
 ```bash
 ./audiovisualizer
-# or
 ./monograph
+./gridgen
 ```
 
 ## Output
@@ -46,3 +53,4 @@ make
 ![GIF](assets/animation.gif)
 ![GIF](assets/animation_1.gif)
 ![monograph](assets/monograph_output.png)
+![gridgen](assets/gridgen_output.png)

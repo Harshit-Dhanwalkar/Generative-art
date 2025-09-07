@@ -52,28 +52,13 @@ std::string getPaletteChoice() {
     }
 }
 
-void applyRandomWarps(GridGen& grid, int windowWidth, int windowHeight) {
-    grid.generateGrid();
-
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_real_distribution<> disX(windowWidth / 2.0f - 50, windowWidth / 2.0f + 50);
-    std::uniform_real_distribution<> disY(windowHeight / 2.0f - 50, windowHeight / 2.0f + 50);
-    std::uniform_real_distribution<> disStrength(0.0003f, 0.0007f);
-    std::uniform_real_distribution<> disFalloff(200.0f, 300.0f);
-
-    for (int i = 0; i < 5; ++i) {
-        grid.warpGrid(disX(gen), disY(gen), disStrength(gen), disFalloff(gen));
-    }
-}
-
 int main() {
     int windowWidth = 800;
     int windowHeight = 800;
 
     std::string paletteChoice = getPaletteChoice();
 
-    sf::RenderWindow window(sf::VideoMode(windowWidth, windowHeight), "GridGen");
+    sf::RenderWindow window(sf::VideoMode(windowWidth, windowHeight), "GridGen with Circle Clusters");
     window.setFramerateLimit(60);
 
     // Load font for UI
@@ -97,10 +82,6 @@ int main() {
 
     bool needsRedraw = true;
 
-    // Apply initial warps
-    applyRandomWarps(grid, windowWidth, windowHeight);
-
-
     while (window.isOpen()) {
         sf::Event event;
         while (window.pollEvent(event)) {
@@ -114,13 +95,16 @@ int main() {
                 }
                 // Regenerate on R key press
                 if (event.key.code == sf::Keyboard::R) {
-                    applyRandomWarps(grid, windowWidth, windowHeight);
+                    grid.regenerate();
                     needsRedraw = true;
                     std::cout << "Regenerated artwork." << std::endl;
                 }
                 // Save on S key press
                 if (event.key.code == sf::Keyboard::S) {
-                    // Save current frame to image
+                    window.clear(sf::Color::Black);
+                    grid.draw();
+                    window.display();
+
                     sf::Texture texture;
                     texture.create(window.getSize().x, window.getSize().y);
                     texture.update(window);
@@ -129,6 +113,7 @@ int main() {
                     } else {
                         std::cerr << "Failed to save image." << std::endl;
                     }
+                    needsRedraw = true;
                 }
             }
         }
