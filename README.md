@@ -64,3 +64,4 @@ make
 ![GIF](assets/animation_1.gif)
 ![monograph](assets/monograph_output.png)
 ![gridgen](assets/gridgen_output.png)
+![fabric](assets/fabric.gif)

@@ -19,3 +19,5 @@ target_link_libraries(fabric_app PUBLIC
     sfml-system
     # sfml-audio
 )
+
+target_include_directories(fabric_app PRIVATE ${CMAKE_CURRENT_BINARY_DIR})

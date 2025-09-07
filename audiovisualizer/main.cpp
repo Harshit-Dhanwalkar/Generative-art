@@ -8,8 +8,8 @@
 #include <iomanip>
 #include <filesystem>
 #include "../lib/Palettes.hpp"
-#include "GIFRecorder.hpp"
-#include "AudioVisualizer.hpp"
+#include "../lib/GIFRecorder.hpp"
+#include "../lib/AudioVisualizer.hpp"
 
 // Print a color block to the terminal
 void printColorBlock(const sf::Color& color) {
@@ -89,7 +89,7 @@ int main() {
     RuleBasedPlacer placer(windowWidth, windowHeight);
     GIFRecorder gifRecorder(windowWidth, windowHeight, 300, 15.0f);
 
-    // Set up random number generation
+    // Random number generation
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_real_distribution<> sizeDist(5.0, 100.0);
@@ -98,13 +98,12 @@ int main() {
     std::uniform_int_distribution<> paletteIndexDist(0, palette.size() - 1);
     std::uniform_real_distribution<> floatDist(0.0, 1.0);
 
-    // Create render texture for saving frames
+    // Render texture for saving frames
     sf::RenderTexture renderTexture;
     if (!renderTexture.create(windowWidth, windowHeight)) {
         return -1;
     }
 
-    // Main loop variables
     sf::Clock clock;
     sf::Time deltaTime;
     float time = 0;

@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(SFML 2.5 REQUIRED COMPONENTS graphics window system audio)
 
-option(BUILD_AUDIO_VISUALIZER "Build the Audio Visualizer project" OFF)
+option(BUILD_AUDIO_VISUALIZER "Build the Audio Visualizer project" ON)
 option(BUILD_MONOGRAPH "Build the Monograph project" OFF)
 option(BUILD_GRIDGEN "Build the GridGen project" OFF)
 option(BUILD_PARTICLESYSTEM "Build the ParticleSystem project" OFF)

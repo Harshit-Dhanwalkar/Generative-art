@@ -11,8 +11,8 @@ file(COPY ${CMAKE_SOURCE_DIR}/fonts/ DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/fon
 add_executable(audiovisualizer_app
     main.cpp
     ../lib/Palettes.hpp
-    GIFRecorder.hpp
-    AudioVisualizer.hpp
+    ../lib/GIFRecorder.hpp
+    ../lib/AudioVisualizer.hpp
 )
 
 target_link_libraries(audiovisualizer_app PUBLIC
@@ -21,3 +21,5 @@ target_link_libraries(audiovisualizer_app PUBLIC
     sfml-system
     sfml-audio
 )
+
+target_include_directories(audiovisualizer_app PRIVATE ${CMAKE_CURRENT_BINARY_DIR})

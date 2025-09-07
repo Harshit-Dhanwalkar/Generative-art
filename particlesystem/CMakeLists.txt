@@ -23,3 +23,5 @@ target_link_libraries(particlesystem_app PUBLIC
     sfml-system
     # sfml-audio
 )
+
+target_include_directories(particlesystem_app PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
