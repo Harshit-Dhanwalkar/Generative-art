@@ -100,8 +100,8 @@ int main() {
                     sf::Texture texture;
                     texture.create(window.getSize().x, window.getSize().y);
                     texture.update(window);
-                    if (texture.copyToImage().saveToFile("monograph.png")) {
-                        std::cout << "Saved image to monograph.png" << std::endl;
+                    if (texture.copyToImage().saveToFile("monograph_output.png")) {
+                        std::cout << "Saved image to monograph_output.png" << std::endl;
                     } else {
                         std::cerr << "Failed to save image." << std::endl;
                     }
