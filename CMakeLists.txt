@@ -6,11 +6,12 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(SFML 2.5 REQUIRED COMPONENTS graphics window system audio)
 
-option(BUILD_AUDIO_VISUALIZER "Build the Audio Visualizer project" ON)
+option(BUILD_AUDIO_VISUALIZER "Build the Audio Visualizer project" OFF)
 option(BUILD_MONOGRAPH "Build the Monograph project" OFF)
 option(BUILD_GRIDGEN "Build the GridGen project" OFF)
 option(BUILD_PARTICLESYSTEM "Build the ParticleSystem project" OFF)
-option(BUILD_FABRIC "Build the Interactive Fabric Grid project" ON)
+option(BUILD_FABRIC "Build the Interactive Fabric Grid project" OFF)
+option(BUILD_GABRIELSHORN "Build the Gabriel's Horn Project" ON)
 
 if(BUILD_AUDIO_VISUALIZER)
 add_subdirectory(audiovisualizer)
@@ -30,4 +31,8 @@ endif()
 
 if(BUILD_FABRIC)
 add_subdirectory(fabric)
+endif()
+
+if(BUILD_GABRIELSHORN)
+add_subdirectory(gabrielshorn)
 endif()
