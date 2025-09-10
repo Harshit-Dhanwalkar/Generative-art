@@ -20,41 +20,37 @@ cd build
 cmake ..
 ```
 
-To `make` `audiovisualizer`
+To `make` {Project name}
+
+Project names:
+
+1. audiovisualizer
+2. monograph
+3. gridgen
+4. particlesystem
+5. fabric
+6. gabrielshorn
+7. smithtiles
+
+For example:
 
 ```sh
 cd audiovisualizer/
 make
 ```
 
-To `make` `monograph`
-
-```sh
-cd monograph/
-make
-```
-
-To `make` `gridgen`
-
-```sh
-cd gridgen/
-make
-```
-
-To `make` `particlesystem`
-
-```sh
-cd particlesystem
-make
-```
+After making successfully:
 
 #### Run
 
 ```bash
-./audiovisualizer
-./monograph
-./gridgen
-./particlesystem
+./audiovisualizer_app
+./monograph_app
+./gridgen_app
+./particlesystem_app
+./fabric_app
+./gabrielshorn_app
+./smithtiles_app
 ```
 
 ## Output
@@ -65,3 +61,4 @@ make
 ![monograph](assets/monograph_output.png)
 ![gridgen](assets/gridgen_output.png)
 ![fabric](assets/fabric.gif)
+![smith tiles](assets/smithtiles_output.png)
